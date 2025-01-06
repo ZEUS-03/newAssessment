@@ -1,20 +1,27 @@
 import CustomContainer from "./CustomContainer";
 import CustomInput from "./CustomInput";
 import CustomButton from "./CustomButton";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { validateEmail, validatePassword } from "../../helper/utils";
+import { validateUser } from "../../helper/apiCallouts";
+import { useDispatch } from "react-redux";
+import { loginAction } from "../../redux/authActions";
 
 const LoginForm = () => {
-  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({
     email: "",
     password: "",
   });
+  const [userValidated, setUserValidated] = useState(true);
 
-  const handleSubmit = (e) => {
-    const emailError = !validateEmail(name)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+    const emailError = !validateEmail(email)
       ? "Please enter a valid email."
       : "";
     const passwordError = !validatePassword(password)
@@ -26,6 +33,15 @@ const LoginForm = () => {
     });
     if (emailError || passwordError) {
       return false;
+    }
+    const validatedUser = await validateUser({ email, password });
+    if (!validatedUser) {
+      setUserValidated(false);
+      return false;
+    } else {
+      setUserValidated(true);
+      dispatch(loginAction(validatedUser));
+      navigate("/dashboard");
     }
   };
 
@@ -43,8 +59,8 @@ const LoginForm = () => {
           label="Email"
           type="email"
           placeholder="Enter your email"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
           error={Boolean(error.email)}
           helperText={error.email}
         />
@@ -57,6 +73,10 @@ const LoginForm = () => {
           error={Boolean(error.password)}
           helperText={error.password}
         />
+
+        {!userValidated && (
+          <p className="text-red-500 mb-3">Email or Password is incorrect.</p>
+        )}
         <CustomButton onClick={handleSubmit}>Login</CustomButton>
 
         <p className="mt-5">

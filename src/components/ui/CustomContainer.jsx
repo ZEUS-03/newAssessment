@@ -13,7 +13,7 @@ const CustomContainer = ({ children, sx = {} }) => {
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "column",
-          height: "50vh",
+          height: "65vh",
           backgroundColor: "#f4f7fc", // Light background color for the page
           borderRadius: "8px",
           boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)", // Light shadow for depth
