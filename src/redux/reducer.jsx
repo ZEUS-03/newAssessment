@@ -1,5 +1,5 @@
 const initialState = { user: null, isLoggedIn: false };
-import { LOGIN, LOGOUT, SIGNUP } from "./actions";
+import { LOGIN, LOGOUT, SIGNUP, UPDATE } from "./actions";
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -20,6 +20,11 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: null,
         isLoggedIn: false,
+      };
+    case UPDATE:
+      return {
+        ...state,
+        user: { ...state.user, ...action.payload },
       };
     default:
       return state;
