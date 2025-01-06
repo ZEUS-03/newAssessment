@@ -17,7 +17,7 @@ export default function BasicDatePicker({
     // <div className="">
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer
-        sx={{ width: "57%", marginTop: -1 }}
+        sx={{ width: "80%", marginTop: -1 }}
         components={["DatePicker"]}
       >
         <DatePicker
