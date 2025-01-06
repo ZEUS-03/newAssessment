@@ -2,10 +2,10 @@ import { useState } from "react";
 import LoginForm from "./components/ui/LoginForm";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Signup from "./components/ui/Signup";
-import { useSelector } from "react-redux";
 import Dashboard from "./components/ui/Dashboard";
 import PublicRoute from "./routes/PublicRoute";
 import PrivateRoute from "./routes/PrivateRoute";
+import Profile from "./components/ui/Profile";
 
 function App() {
   return (
@@ -32,6 +32,14 @@ function App() {
           element={
             <PrivateRoute>
               <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
             </PrivateRoute>
           }
         />
